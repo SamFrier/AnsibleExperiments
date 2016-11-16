@@ -4,13 +4,15 @@
 
 ## Installation & Setup
 
-Ansible can easily be installed via a package manager such as apt-get or yum:
+Ansible can easily be installed via a package manager such as `apt-get`:
 
     ~$ sudo apt-get install -y ansible
     
+or `yum`:
+    
     ~$ sudo yum install -y ansible
     
-Alternatively you can use pip, Python’s package manager:
+Alternatively you can use `pip`, Python’s package manager:
 
     ~$ sudo pip install ansible
 
