@@ -109,7 +109,7 @@ We can then execute the playbook to run these tasks:
 
     vagrant@ansiblemaster:~$ ansible-playbook playbook.yml
     
-(TODO: write about `become` in Ansible >=1.9 [`become`,`become_user`,`become_method`]
+In this example we used `sudo: yes` to perform the tasks with root permissions; however from Ansible 1.9 onwards we can use the keyword `becomes` to change user on the node(s). See here for more details: http://docs.ansible.com/ansible/become.html
 
 ## Sources
 
