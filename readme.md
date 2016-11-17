@@ -35,7 +35,7 @@ Alternatively, you can manually copy the key file from the master to the nodes a
 
 ## Usage
 
-In the following examples, we will consider a setup consisting of a master virtual machine, `ansiblemaster`, and two node VMs with IP addresses `192.168.1.111` and `192.168.1.112` respectively. In all three cases the user of the system has the name `vagrant` (since this infrastructure was set up using Vagrant).
+In the following examples, we will consider a setup consisting of a master virtual machine, `ansiblemaster`, and two node VMs with IP addresses `192.168.1.111` and `192.168.1.112` respectively. In all three cases the user of the system has the name `vagrant` (since this infrastructure was set up using Vagrant) and all of them run Ubuntu.
 
 The contents of `/etc/ansible/hosts` are as follows:
 
@@ -58,16 +58,32 @@ The simplest task we can perform is to ping all of the nodes from the master:
     }
 
     192.168.1.111 | success >> {
-	    “changed”: false,
+        “changed”: false,
         “ping”: “pong”
     }
 
-...
+We could also ensure that `emacs` is installed using Ubuntu's package manager on a specific node:
+
+    vagrant@ansiblemaster:~$ ansible 192.168.1.112 -m apt -a "name=emacs state=present" --sudo
+    192.168.1.112 | success >> {
+        "changed": true,
+	"stderr": [output omitted],
+	"stdout": [output omitted]
+    }
+    
+Instead of ensuring that `emacs` is installed on only one node, we could ensure it is installed on all nodes in the group `clients` (though in this case there is only one node in the group so the end result is the same):
+
+    vagrant@ansiblemaster:~$ ansible clients -m apt -a "name=emacs state=present" --sudo
 
 ### Playbooks
 
+Instead of performing ad-hoc tasks one by one, we can create a playbook containing multiple tasks. These tasks will be performed in the order they are listed in the file. For example, the code listing below will install the latest version of `mysql-server` on the machines in the `servers` group and start the `mysql` service, and install the latest version of `mysql-client` on the machines in the `clients` group.
+
 ```yaml
+# Filename: playbook.yml
+
 ---
+
 - hosts: servers
   sudo: yes
 
@@ -89,7 +105,9 @@ The simplest task we can perform is to ping all of the nodes from the master:
     apt: name=mysql-client state=latest
 ```
 
-...
+We can then execute the playbook to run these tasks:
+
+    vagrant@ansiblemaster:~$ ansible-playbook playbook.yml
 
 ## Sources
 
