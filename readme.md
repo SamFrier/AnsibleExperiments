@@ -108,6 +108,8 @@ Instead of performing ad-hoc tasks one by one, we can create a playbook containi
 We can then execute the playbook to run these tasks:
 
     vagrant@ansiblemaster:~$ ansible-playbook playbook.yml
+    
+(TODO: write about `become` in Ansible >=1.9 [`become`,`become_user`,`become_method`]
 
 ## Sources
 
