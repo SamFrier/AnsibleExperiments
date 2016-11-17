@@ -25,13 +25,13 @@ Vagrant.configure(2) do |config|
         end
     end
 	
-	config.vm.define "ansible_host" do |host|
-        host.vm.hostname = "ansiblehost.qac.local"
-        host.vm.network :public_network, ip: "192.168.1.110"
-        host.vm.provision :shell, path: "bootstrap.sh"
+	config.vm.define "ansible_master" do |master|
+        master.vm.hostname = "ansiblemaster.qac.local"
+        master.vm.network :public_network, ip: "192.168.1.110"
+        master.vm.provision :shell, path: "bootstrap.sh"
         
-        host.vm.provider :virtualbox do |vbox|
-            vbox.name = "Ansible Host"
+        master.vm.provider :virtualbox do |vbox|
+            vbox.name = "Ansible Master"
         end
     end
 	
