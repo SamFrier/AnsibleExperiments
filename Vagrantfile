@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set f=ruby :
 
-NOT_AGENTS=1
+NODES=2
 
 Vagrant.configure(2) do |config|
     config.vm.box = "chad-thompson/ubuntu-trusty64-gui"
@@ -13,25 +13,26 @@ Vagrant.configure(2) do |config|
         vbox.cpus = 2
     end
     
-    config.vm.define "ansible" do |ansible|
-        ansible.vm.hostname = "samsansible.qac.local"
-        ansible.vm.network :public_network, ip: "192.168.1.110"
-        ansible.vm.provision :shell, path: "bootstrap.sh"
-        
-        ansible.vm.provider :virtualbox do |vbox|
-            vbox.name = "Ansible Ubuntu"
-        end
-    end
-    
-    NOT_AGENTS.times do |i|
-        config.vm.define "notagent#{i+1}" do |notagent|
-            notagent.vm.hostname = "notagent#{i+1}.qac.local"
-            notagent.vm.network :public_network, ip: "192.168.1.11#{i+1}"
-            #notagent.vm.provision :shell, path: "bootstrap.sh"
+    NODES.times do |i|
+        config.vm.define "ansible_node#{i+1}" do |node|
+            node.vm.hostname = "ansiblenode#{i+1}.qac.local"
+            node.vm.network :public_network, ip: "192.168.1.#{i+111}"
+            #node.vm.provision :shell, path: "bootstrap.sh"
             
-            notagent.vm.provider :virtualbox do |vbox|
-                vbox.name = "Ubuntu Not-Agent #{i+1}"
+            node.vm.provider :virtualbox do |vbox|
+                vbox.name = "Ansible Node #{i+1}"
             end
         end
     end
+	
+	config.vm.define "ansible_host" do |host|
+        host.vm.hostname = "ansiblehost.qac.local"
+        host.vm.network :public_network, ip: "192.168.1.110"
+        host.vm.provision :shell, path: "bootstrap.sh"
+        
+        host.vm.provider :virtualbox do |vbox|
+            vbox.name = "Ansible Host"
+        end
+    end
+	
 end
