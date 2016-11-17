@@ -66,28 +66,28 @@ The simplest task we can perform is to ping all of the nodes from the master:
 
 ### Playbooks
 
-    ```yaml
-    ---
-    - hosts: servers
-      sudo: yes
-    
-      tasks:
-      - name: update the apt cache
-        apt: update_cache=yes
-      - name: ensure mysql server is at the latest version
-        apt: name=mysql-server state=latest
-      - name: ensure mysql service is started
-        service: name=mysql state=started
-    
-    - hosts: clients
-      sudo: yes
-    
-      tasks:
-      - name: update the apt cache
-        apt: update_cache=yes
-      - name: ensure mysql client is at the latest version
-        apt: name=mysql-client state=latest
-    ```
+```yaml
+---
+- hosts: servers
+  sudo: yes
+
+  tasks:
+  - name: update the apt cache
+    apt: update_cache=yes
+  - name: ensure mysql server is at the latest version
+    apt: name=mysql-server state=latest
+  - name: ensure mysql service is started
+    service: name=mysql state=started
+
+- hosts: clients
+  sudo: yes
+
+  tasks:
+  - name: update the apt cache
+    apt: update_cache=yes
+  - name: ensure mysql client is at the latest version
+    apt: name=mysql-client state=latest
+```
 
 ...
 
