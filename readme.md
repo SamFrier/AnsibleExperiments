@@ -35,7 +35,17 @@ Alternatively, you can manually copy the key file from the master to the nodes a
 
 ## Usage
 
-In the following examples, we will consider a setup consisting of a master machine, `ansiblemaster`, and two node machines with IP addresses `192.168.1.111` and `192.168.1.112` respectively. In all three cases the user of the system has the name `vagrant` (since this infrastructure was set up using Vagrant).
+In the following examples, we will consider a setup consisting of a master virtual machine, `ansiblemaster`, and two node VMs with IP addresses `192.168.1.111` and `192.168.1.112` respectively. In all three cases the user of the system has the name `vagrant` (since this infrastructure was set up using Vagrant).
+
+The contents of `/etc/ansible/hosts` are as follows:
+
+    [servers]
+    192.168.1.111
+    
+    [clients]
+    192.168.1.112
+
+This means that one VM is part of the group `servers` and the other is part of the group `clients`.
 
 ### Ad-hoc Task Execution
 
@@ -55,3 +65,32 @@ The simplest task we can perform is to ping all of the nodes from the master:
 ...
 
 ### Playbooks
+
+    ```yaml
+    ---
+    - hosts: servers
+      sudo: yes
+    
+      tasks:
+      - name: update the apt cache
+        apt: update_cache=yes
+      - name: ensure mysql server is at the latest version
+        apt: name=mysql-server state=latest
+      - name: ensure mysql service is started
+        service: name=mysql state=started
+    
+    - hosts: clients
+      sudo: yes
+    
+      tasks:
+      - name: update the apt cache
+        apt: update_cache=yes
+      - name: ensure mysql client is at the latest version
+        apt: name=mysql-client state=latest
+    ```
+
+...
+
+## Sources
+
+http://docs.ansible.com/ansible/
