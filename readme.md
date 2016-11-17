@@ -25,6 +25,8 @@ When Ansible runs it will attempt to access one or more of these nodes via SSH. 
     ~$ ssh-add ~/.ssh/id_rsa
     ~$ ssh-copy-id user@host
     
-By default, Ansible will try to connect using the current logged-in user on the host. Make sure to specify a different username if necessary, and make sure you have added your SSH key to all users + nodes you require (you will need to connect using that user’s password in order to add the key or otherwise be able to copy the key file from the host to the nodes).
+By default, Ansible will try to connect using the current logged-in user on the host. Make sure to specify a different username if necessary, and make sure you have added your SSH key to all users + nodes you require (you will need to connect using that user’s password in order to add the key).
+
+Alternatively, you can manually copy the key file from the hosts to the nodes and then append the contents to the end of the node’s `~/.ssh/authorized_keys` file.
 
 ## Usage
