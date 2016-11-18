@@ -6,6 +6,20 @@ Ansible is a configuration management tool that allows a single master computer 
 
 Besides configuration management, Ansible can also be used for application deployment. Ansible is free and open-source; however a paid version called Ansible Tower is also available, which provides a graphical interface through which users can view their inventory and jobs in greater depth and manage them more easily.
 
+Standalone scripts called modules are the primary unit of work in Ansible. Modules are idempotent, meaning they can safely be run multiple times and have the same effect as running them only once. A few examples of modules are:
+
+* `service` -- manage the status of a service on a node
+
+* `apt`, `yum`, `pip` etc. -- interaction with various different package managers
+
+* `shell` -- execute a command in a node's shell
+
+* `copy` -- copy a file to a node
+
+* `git` -- interact with a git repository on a node
+
+A complete list of modules can be found here: http://docs.ansible.com/ansible/modules_by_category.html
+
 ## Installation & Setup
 
 Ansible can easily be installed via a package manager such as `apt-get`:
