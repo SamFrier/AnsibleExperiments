@@ -41,7 +41,9 @@ When Ansible runs it will attempt to access one or more of these nodes via SSH. 
     ~$ ssh-keygen -t rsa
     ~$ ssh-agent bash
     ~$ ssh-add ~/.ssh/id_rsa
-    ~$ ssh-copy-id user@host
+    ~$ ssh-copy-id <user>@<host>
+    
+...replacing `<user>@<host>` with the username and host name/IP of the node. If you don't specify a use,r SSH will assume one with the same name as your current user (see below).
     
 By default, Ansible will try to connect using the current logged-in user on the master. Make sure to specify a different username if necessary, and make sure you have added your SSH key to all users + nodes you require (you will need to connect using that user’s password in order to add the key).
 
