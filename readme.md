@@ -36,7 +36,7 @@ Alternatively you can use `pip`, Python’s package manager:
 
 Once you’ve installed Ansible on a master machine, you will need to add any nodes that you want to manage to the file `/etc/ansible/hosts`. You can specify nodes by either their hostname (if applicable) or their IP address.
 
-When Ansible runs it will attempt to access one or more of these nodes via SSH. In order for this to work, the Ansible host must be able to connect to the nodes without having to enter a password, otherwise the command will fail to execute. To enable this, add your master’s SSH key to the nodes using these commands:
+When Ansible runs it will attempt to access one or more of these nodes via SSH. In order for this to work, the Ansible host must be able to connect to the nodes without having to enter a password, otherwise the command will fail to execute. To enable this, add your master’s SSH key to the nodes. You can do this by entering the following commands in a terminal window on the master:
 
     ~$ ssh-keygen -t rsa
     ~$ ssh-agent bash
