@@ -43,7 +43,7 @@ When Ansible runs it will attempt to access one or more of these nodes via SSH. 
     ~$ ssh-add ~/.ssh/id_rsa
     ~$ ssh-copy-id <user>@<host>
     
-...replacing `<user>@<host>` with the username and host name/IP of the node. If you don't specify a use,r SSH will assume one with the same name as your current user (see below).
+...replacing `<user>@<host>` with the username and host name/IP of the node. If you don't specify a user, SSH will assume one with the same name as your current user (see below).
     
 By default, Ansible will try to connect using the current logged-in user on the master. Make sure to specify a different username if necessary, and make sure you have added your SSH key to all users + nodes you require (you will need to connect using that user’s password in order to add the key).
 
@@ -127,6 +127,44 @@ We can then execute the playbook to run these tasks:
     
 In this example we used `sudo: yes` to perform the tasks with root permissions; however from Ansible 1.9 onwards we can use the keyword `becomes` to change user on the node(s). See here for more details: http://docs.ansible.com/ansible/become.html
 
+### Roles
+
+It is good practice in Ansible to group together related tasks, files, variables etc. in a *role*. Roles can be assigned to specific hosts or groups to ensure that they implement a certain behaviour. A typical use case for roles is defining tasks for installing a piece of software (e.g. MySQL, Nginx) while defining associated variables in a separate file. Logically grouping files together like this also makes it easy to share roles on sites such as [Ansible Galaxy](https://galaxy.ansible.com/).
+
+A role utilises the following directory structure:
+
+```shell
+site.yml        # Master playbook
+roles/
+  role1/        # Directory name is the name of the role
+    tasks/      # Main tasks to be executed
+    handlers/   # Tasks that are called when explicitly notified by another task when it has changed something
+    files/      # Files that can be deployed to nodes
+    templates/  # Files that can have variables susbsituted in
+    vars/       # Variables to be used in tasks
+    defaults/   # Default values for variables
+    meta/       # Metadata e.g. dependencies
+  role2/
+    # etc.
+```
+
+Each of the directories inside the role directory is optional, as long as there is at least 1 present. Finally, roles can be assigned in the top-level playbook `site.yml`:
+
+```yaml
+---
+
+- hosts: servers
+  roles:
+     - role1
+     - role2
+```
+
+See here for further info: http://docs.ansible.com/ansible/latest/playbooks_reuse_roles.html
+
 ## Sources
 
 http://docs.ansible.com/ansible/
+
+http://docs.ansible.com/ansible/latest/glossary.html
+
+http://docs.ansible.com/ansible/latest/playbooks_best_practices.html
